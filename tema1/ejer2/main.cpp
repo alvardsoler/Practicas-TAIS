@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <algorithm>
 #include "BinTree.h"
 
 /**
@@ -37,7 +38,7 @@ int altura(BinTree<int> const & arbol) {
 		return 0;
 	}
 	else {
-		return 1 + std::fmax(altura(arbol.left()), altura(arbol.right()));
+		return 1 + std::max(altura(arbol.left()), altura(arbol.right()));
 	}
 }
 
@@ -80,7 +81,7 @@ void resolverCaso() {
 int main() {
 #ifndef DOMJUDGE
 
-	std::ifstream in("casos.txt"); //no sé por qué no lee nada del archivo y sí que está bien colocado
+	std::ifstream in("caso.txt"); //no sé por qué no lee nada del archivo y sí que está bien colocado
 
 	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
 
