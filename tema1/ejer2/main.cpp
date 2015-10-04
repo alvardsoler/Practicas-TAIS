@@ -55,13 +55,40 @@ bool resuelveAltura(BinTree<int> const & arbol) {
 	}
 }
 
+
+/*Con este método vamos comprobando que la parte derecha del árbol es mayor que su raíz. Es necesario comprobar dos veces que no sea vacío tal y como lo estamos implementando para no entrar en la excepción*/
+
+bool mayor(BinTree<int> const & arbol) {
+	if (arbol.empty()) {
+		return true;
+	}
+	else if (!arbol.right().empty()) {
+		if (arbol.right().root() < arbol.root()) return false;
+		else return mayor(arbol.right());
+	}
+	else return true;
+}  
+
+/*Este método es equivalente a mayor pero mirando que la parte izquierda sea menor que la raíz*/
+
+bool menor(BinTree<int> const & arbol) {
+	if (arbol.empty()) {
+		return true;
+	}
+	else if (!arbol.left().empty()) {
+		if (arbol.left().root() > arbol.root()) return false;
+		else return menor(arbol.left());
+	}
+	else return true;
+}
+
 /*Ahora comenzamos a comprobar que sea de búsqueda. Este método ya comprueba que además esté balanceado, si no devuelve false*/
 
 bool resuelveBusqueda(BinTree<int> const & arbol) {
 	if (resuelveAltura(arbol) == true) {
 		if (arbol.empty()) return true;
 		if (resuelveBusqueda(arbol.left()) && resuelveBusqueda(arbol.right())) {
-			if ((arbol.root() > arbol.left().root()) && (arbol.root() < arbol.right().root())) return true;
+			if ((mayor(arbol.right())) && menor(arbol.left())) return true;
 			else return false;
 		}
 	}
@@ -81,7 +108,7 @@ void resolverCaso() {
 int main() {
 #ifndef DOMJUDGE
 
-	std::ifstream in("caso.txt"); //no sé por qué no lee nada del archivo y sí que está bien colocado
+	std::ifstream in("caso.txt"); 
 
 	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
 
