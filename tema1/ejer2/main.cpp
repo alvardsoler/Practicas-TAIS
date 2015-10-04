@@ -87,10 +87,8 @@ bool menor(BinTree<int> const & arbol) {
 bool resuelveBusqueda(BinTree<int> const & arbol) {
 	if (resuelveAltura(arbol) == true) {
 		if (arbol.empty()) return true;
-		if (resuelveBusqueda(arbol.left()) && resuelveBusqueda(arbol.right())) {
-			if ((mayor(arbol.right())) && menor(arbol.left())) return true;
-			else return false;
-		}
+		if ((mayor(arbol.right())) && menor(arbol.left())) return true;
+		else return false;
 	}
 	else return false;
 }
