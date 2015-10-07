@@ -59,9 +59,29 @@ bool resuelve(BinTree<int> const & arbol, int &alt, int min, int max) {
 	    if (std::abs(auxI - auxD) <= 1) {
 		alt = 1 + std::max(auxI, auxD);
 		return true;
+<<<<<<< HEAD
 	    } else return false;
 	} else return false;
     }
+=======
+	}
+	else if (!arbol.left().empty()) {
+		if (arbol.left().root() > arbol.root()) return false;
+		else return menor(arbol.left());
+	}
+	else return true;
+}
+
+/*Ahora comenzamos a comprobar que sea de búsqueda. Este método ya comprueba que además esté balanceado, si no devuelve false*/
+
+bool resuelveBusqueda(BinTree<int> const & arbol) {
+	if (resuelveAltura(arbol) == true) {
+		if (arbol.empty()) return true;
+		if ((mayor(arbol.right())) && menor(arbol.left())) return true;
+		else return false;
+	}
+	else return false;
+>>>>>>> 2d188d688c766d41ec9e75eb3fdeca5c88a5bba2
 }
 
 void resolverCaso() {
