@@ -14,11 +14,12 @@
 void resolverCaso() {
     int n;
     std::cin >> n;
-    int aux1;
-    int aux2;
+    unsigned long aux1;
+    unsigned long aux2;
+
     while (n != 0) {
-	PriorityQueue<int, std::less<int>> cola;
-	PriorityQueue<int, std::less<int>> colaAux;
+	PriorityQueue<unsigned long, std::less<unsigned int>> cola;
+	PriorityQueue<unsigned long, std::less<unsigned int>> colaAux;
 	int aux;
 	for (int i = 0; i < n; i++) {
 	    std::cin >> aux;
@@ -41,8 +42,6 @@ void resolverCaso() {
 	}
 	std::cout << colaAux.top() << std::endl;
 	std::cin >> n;
-	cola.~PriorityQueue();
-	colaAux.~PriorityQueue();
     }
 }
 
