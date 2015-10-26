@@ -11,8 +11,8 @@
 #include <cstdlib>
 #include "PriorityQueue.h"
 
-PriorityQueue<unsigned long int, std::less<unsigned int>> leer(int const n) {
-    PriorityQueue<unsigned long int, std::less<unsigned int>> ret;
+PriorityQueue<unsigned long long int, std::less<unsigned int>> leer(int const n) {
+    PriorityQueue<unsigned long long int, std::less<unsigned int>> ret;
     int aux;
     for (int i = 0; i < n; i++) {
 	std::cin >> aux;
@@ -21,24 +21,25 @@ PriorityQueue<unsigned long int, std::less<unsigned int>> leer(int const n) {
     return ret;
 }
 
-unsigned long resuelve(PriorityQueue<unsigned long int, std::less<unsigned int>> cola) {
-    PriorityQueue<unsigned long int, std::less<unsigned int>> colaAux;
-    unsigned long int aux1;
-    unsigned long int aux2;
+unsigned long resuelve(PriorityQueue<unsigned long long int, std::less<unsigned int>> &cola) {
+    if (cola.size() == 1) return cola.top();
+    PriorityQueue<unsigned long long int, std::less<unsigned long long int>> colaAux;
+    unsigned long long int aux1;
+    unsigned long long int aux2;
     while (cola.size() > 1) {
 	aux1 = cola.top();
 	cola.pop();
 	aux2 = cola.top();
 	cola.pop();
-	colaAux.push((unsigned long) (aux1 + aux2));
-	cola.push((unsigned long) (aux1 + aux2));
+	colaAux.push((aux1 + aux2));
+	cola.push((aux1 + aux2));
     }
     while (colaAux.size() > 1) {
 	aux1 = colaAux.top();
 	colaAux.pop();
 	aux2 = colaAux.top();
 	colaAux.pop();
-	colaAux.push((unsigned long) (aux1 + aux2));
+	colaAux.push((aux1 + aux2));
     }
     return colaAux.top();
 }
