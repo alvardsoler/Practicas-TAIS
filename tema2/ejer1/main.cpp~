@@ -9,7 +9,6 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <climits>
 #include "BinTree.h"
 
 /**
@@ -35,26 +34,29 @@ BinTree<int> leerArbol() {
     }
 }
 
-bool resuelve(BinTree<int> const & arbol, int const valPadre, int &alt) {
+bool resuelve(BinTree<int> const & arbol, int const valPadre, int const altIzq , int const altDer) {    
     if (arbol.empty()) return true;
-    else {
-	if (arbol.root() >= valPadre) {
-	    int auxI, auxD;
-	    auxI = alt;
-	    auxD = alt;
-	    if (!resuelve(arbol.left(), arbol.root(), auxI)) return false;
-	    if (!resuelve(arbol.right(), arbol.root(), auxD)) return false;
-	    if (auxI == auxD || auxI == auxD + 1) {
-		alt = 1 + std::max(auxI, auxD);
-		return true;
-	    } else return false;
-	} else return false;
+    
+    if (arbol.left().empty() && arbol.right().empty()) return true;
+    if (arbol.left().empty() && !arbol.right().empty()) return false;
+    if (arbol.root() < valPadre) return false;
+    else {	
+	if (resuelve(arbol.left(), arbol.root()) && resuelve(arbol.right(), arbol.root())) return true;
+
     }
+
+
+
 }
 
 // completo: vacio || (completo(iz) && completo(der) && (altura(iz) == altura(der))
 // semi-completo: vacio || ( (completo(arbol) || ( (altura(iz) == altura(der) && completo(iz) && semi-compelto(der)) || (altura(iz) == altura(der) +1 && semicompelto(iz) && compelto(der)) )
 // monticulo: vacio || ( semicompleto(arbol) || menor-igual(raiz,iz) && menor-igual(raiz,der) && monticulo(iz) && monticulo(der) )
+
+
+bool esCompleto(BinTree<int> const & arbol){
+    
+}
 
 void resolverCaso() {
     auto arbol = leerArbol();
@@ -62,7 +64,7 @@ void resolverCaso() {
     //    for (int value : arbol)
     //	std::cout << value << std::endl;
     //    std::cout << "---" << std::endl;
-    if (resuelve(arbol, INT_MIN, a)) {
+    if (resuelve(arbol, arbol.root())) {
 	std::cout << "SI" << std::endl;
     } else {
 	std::cout << "NO" << std::endl;
