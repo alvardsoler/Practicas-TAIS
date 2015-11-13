@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <climits>
 #include "Grafo.h"
+#include "ArbolBipartito.h"
 
 /**
  * Creación del grafo
@@ -30,50 +31,14 @@ Grafo leerGrafo(int const _v) {
 
 }
 
-struct Nodo {
-    bool visitado;
-    int idConjunto;
-};
-
-
-bool resuelve(Grafo const & grafo, size_t s, size_t &count, size_t last, std::vector<Nodo> _marked) {
-    Nodo n;
-    n.visitado = true;
-    ++count;
-    if (last == s) n.idConjunto = 0;
-    else {
-	if (_marked[last].idConjunto == 0) {
-	    n.idConjunto = 1;
-	} else n.idConjunto = 0;
-    }
-    _marked[s] = n;
-    for (auto w : grafo.adj(s)) {
-	if (w != last) {
-	    if (!_marked[w].visitado) {
-		if (!resuelve(grafo, w, count, s, _marked))
-		    return false;
-	    } else if (_marked[w].idConjunto == _marked[s].idConjunto) {
-		return false;
-	    }
-	}
-    }
-    return true;
-}
-
-bool resuelve(Grafo const & grafo) {
-    std::vector<Nodo> _marked(grafo.V());
-    size_t s = 0, count = 0;
-    
-    return resuelve(grafo, s, count, 0, _marked);
-
-}
 
 void resolverCaso() {
     int v;
     std::cin >> v;
     while (std::cin) {
 	auto grafo = leerGrafo(v);
-	if (resuelve(grafo)) {
+	ArbolBipartito ab(grafo);
+	if (ab.esBipartito()) {
 	    std::cout << "SI" << std::endl;
 	} else {
 	    std::cout << "NO" << std::endl;
@@ -96,10 +61,6 @@ int main() {
 #ifndef DOMJUDGE
 
     std::cin.rdbuf(cinbuf); //reset to standard input again
-
-    //char ch;
-
-    //std::cin >> ch;
 
     system("PAUSE");
 
