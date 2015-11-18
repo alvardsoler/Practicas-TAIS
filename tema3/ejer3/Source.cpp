@@ -1,7 +1,7 @@
 /*
-* Grupo TAIS16, Samuel Lapuente JimÃ©nez, Alvar David Soler Rus
+* Grupo TAIS16, Samuel Lapuente Jiménez, Alvar David Soler Rus
 *
-* Ejercicio 11. Tema 3.
+* Ejercicio 12. Tema 3.
 *
 */
 
@@ -10,16 +10,17 @@
 #include <fstream>
 #include <cstdlib>
 #include <climits>
-#include "ArbolBipartito.h"
+#include "Arborescencia.h"
+#include "GrafoDirigido.h"
 
 /**
-* CreaciÃ³n del grafo
+* Creación del grafo
 * @return Grafo construido
 */
-Grafo leerGrafo(int const _v) {
+GrafoDirigido leerGrafo(int const _v) {
 	int e, v, w;
 	std::cin >> e;
-	Grafo g(_v);
+	GrafoDirigido g(_v);
 	for (int i = 0; i < e; ++i) {
 		std::cin >> v;
 		std::cin >> w;
@@ -30,19 +31,19 @@ Grafo leerGrafo(int const _v) {
 
 }
 
-
 void resolverCaso() {
 	int v;
 	std::cin >> v;
 	while (std::cin) {
 		auto grafo = leerGrafo(v);
-		ArbolBipartito ab(grafo);
-		if (ab.esBipartito()) {
-			std::cout << "SI" << std::endl;
-		}
-		else {
+		Arborescencia arb(grafo);
+		if (arb.getRaiz() == -1) {
 			std::cout << "NO" << std::endl;
 		}
+		else{
+			std::cout << "SI " << arb.getRaiz() << std::endl;
+		}
+		
 		std::cin >> v;
 	}
 }
