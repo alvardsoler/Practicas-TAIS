@@ -36,7 +36,7 @@ void resuelve() {
 	    while (iss >> word) {
 		if (word.length() > 2) {
 		    try {
-			word[0] = std::tolower(word[0]);
+			std::transform(word.begin(), word.end(), word.begin(), ::tolower);
 			std::list<unsigned int> aux = arbol.at(word);
 			unsigned int aux2 = aux.back();
 			if (!aux.empty() && aux2 != i) {

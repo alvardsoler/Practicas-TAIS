@@ -58,7 +58,7 @@ std::string ColaUrgencias::nombrePrimero() const {
 }
 
 void ColaUrgencias::quitarPrimero() {
-    elementos.pop();--contador;
+    elementos.pop();
 }
 
 #endif	/* COLAURGENCIAS_H */
