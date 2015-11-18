@@ -22,6 +22,7 @@ SerpientesEscaleras leerGrafo(int const _v) {
 	int s, e, v, w, k;
 	GrafoDirigido g(_v * _v);
 	std::vector<int> atajos;
+	std::vector<bool> hayAtajos(_v * _v, false);
 	std::cin >> k;
 	std::cin >> s;
 	std::cin >> e;
@@ -30,9 +31,10 @@ SerpientesEscaleras leerGrafo(int const _v) {
 		std::cin >> w;
 		g.ponArista(v, w);		
 		atajos.push_back(v);
+		hayAtajos[v] = true;
 	}
 	for (int j = 0; j < g.V() - 1; ++j) {
-		if (!(std::find(atajos.begin(), atajos.end(), j) != atajos.end())){		
+		if (!hayAtajos[j]){		
 		if (((g.V() - j - 1) / k) < 1) {
 			for (int z = 1; z < (g.V() - j); ++z) {
 				g.ponArista(j, j + z);
