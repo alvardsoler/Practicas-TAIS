@@ -38,7 +38,7 @@ private:
 			}
 			else{
 				_reacheable[w] = true;
-				visitar(grafo, w);
+				if (!visitar(grafo, w)) return false;
 			}
 		}
 		return true;
