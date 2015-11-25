@@ -26,7 +26,7 @@ private:
     int tamMax;
 
     int resuelve(Grafo const & g) {
-	if (g.V() == 0 || g.V() == 1) return g.V();
+	
 	ComponentesConexas cc(g);
 	int max = 0;
 	for (auto i = 0; i < cc.count(); ++i) {
