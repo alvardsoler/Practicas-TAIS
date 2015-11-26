@@ -14,7 +14,6 @@ class Manchas {
 public:
 
     Manchas(Grafo const &g) {
-
 	tamMax = resuelve(g);
     };
 
@@ -26,9 +25,12 @@ private:
     int tamMax;
 
     int resuelve(Grafo const & g) {
-	
+	// Utilizamos la clase ComponentesConexas
+	// para sacar todas las componentes conexas del grafo	
 	ComponentesConexas cc(g);
 	int max = 0;
+	// Recorremos todas las componentes conexas del grafo sacando
+	// el tamaño máximo de las componentes conexas
 	for (auto i = 0; i < cc.count(); ++i) {
 	    if (max < cc.size(i)) 
 		max = cc.size(i);
