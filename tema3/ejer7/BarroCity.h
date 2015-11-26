@@ -1,6 +1,6 @@
 /* 
  * File:   BarroCity.h
- * Author: Samuel Lapuente Jiménez y Alvar David Soler Rus
+ * Author: alvar
  *
  * Created on 26 de noviembre de 2015, 10:44
  */
@@ -33,17 +33,19 @@ private:
     };
 
     int resuelve(GrafoValorado<int> const & g) {
-	distTo[0] = 0;	
+	distTo[0] = 0;
+	
 	pq.push(0, 0);
+	int topElem;
 	while (!pq.empty()) {
-	    visitar(g, pq.top().elem);
+	    topElem = pq.top().elem;
 	    pq.pop();
 
+	    visitar(g, topElem);
 	}
 	int aux = 0;
-	for (int i = 0; i < distTo.size(); i++)
-	    aux += distTo[i];
-
+	for (int i : distTo)
+	    aux += i;
 	return aux;
     };
 

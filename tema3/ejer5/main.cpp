@@ -29,7 +29,6 @@ Grafo leerGrafo(int const _f, bool  & hayManchas) {
 			std::cin.get(_m);
 			if (_m == '#') {
 				hayManchas = true;
-
 				_marked[i][j] = true;
 				if (i > 0) {
 					if (_marked[i - 1][j]) {
