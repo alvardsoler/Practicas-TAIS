@@ -1,6 +1,6 @@
 /* 
  * File:   BarroCity.h
- * Author: alvar
+ * Author: Samuel Lapuente Jiménez y Alvar David Soler Rus
  *
  * Created on 26 de noviembre de 2015, 10:44
  */
@@ -19,6 +19,7 @@ private:
     std::vector<int> distTo;
     std::vector<bool> marked;
 
+    // Algoritmo de Prim
     void visitar(GrafoValorado<int> const & g, int v) {
 	marked[v] = true;
 	for (Arista<int> a : g.adj(v)) {
@@ -31,15 +32,16 @@ private:
 	    }
 	}
     };
-
+    
     int resuelve(GrafoValorado<int> const & g) {
-	distTo[0] = 0;
+	distTo[0] = 0;	
 	pq.push(0, 0);
 	while (!pq.empty()) {
 	    visitar(g, pq.top().elem);
 	    pq.pop();
 
 	}
+	// Calculamos el tamaño total del Árbol recubridor de coste mínimo
 	int aux = 0;
 	for (int i = 0; i < distTo.size(); i++)
 	    aux += distTo[i];
@@ -51,8 +53,10 @@ public:
 
     BarroCity(GrafoValorado<int> const & g) : pq(g.V()), edgeTo(g.V()),
     distTo(g.V(), INT_MAX), marked(g.V(), false) {
+	if (g.V() == 1) coste = 0;
+	else
+	    coste = resuelve(g);
 
-	coste = resuelve(g);
     };
 
     int getCoste() {
@@ -61,6 +65,4 @@ public:
 
 
 };
-
 #endif	/* BARROCITY_H */
-
