@@ -38,7 +38,7 @@ void resolverCaso() {
     while (std::cin) {
 	auto grafo = leerGrafo(f);
 	BarroCity barro(grafo);
-	if (barro.getCoste() >= 0)
+	if (barro.getCoste() > 0)
 	    std::cout << barro.getCoste() << std::endl;
 	else
 	    std::cout << "Imposible" << std::endl;
