@@ -23,7 +23,10 @@ public:
 private:
 
     int tamMax;
-
+    /*
+    * El coste es O(2|V| + |E|), O(|v|+|E|) del DFS que se hace 
+    * en ComponentesConexas y O(|V|) para sacar el maximo.
+    */
     int resuelve(Grafo const & g) {
 	// Utilizamos la clase ComponentesConexas
 	// para sacar todas las componentes conexas del grafo	
@@ -31,7 +34,7 @@ private:
 	int max = 0;
 	// Recorremos todas las componentes conexas del grafo sacando
 	// el tamaño máximo de las componentes conexas
-	for (auto i = 0; i < cc.count(); ++i) {
+	for (auto i = 0; i < g.V(); ++i) {
 	    if (max < cc.size(i)) 
 		max = cc.size(i);
 	}
