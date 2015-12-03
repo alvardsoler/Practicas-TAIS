@@ -1,7 +1,7 @@
 /*
  * Grupo TAIS16, Samuel Lapuente Jiménez, Alvar David Soler Rus
  *
- * Ejercicio 15. Tema 3.
+ * Ejercicio 11. Tema 3.
  *
  */
 
@@ -10,24 +10,21 @@
 #include <fstream>
 #include <cstdlib>
 #include <climits>
+#include "Grafo.h"
 #include "ManchasCrecientes.h"
 
+
 void resolverCaso() {
-    unsigned int _f, _c;
-
     while (std::cin) {
-	_f = 0;
-	_c = 0;
-	std::cin >> _f;
-	std::cin >> _c;
-	ManchasCrecientes mc(_f, _c);
-	if (_c == 0 && _f == 0) break;
-	std::cout << mc.getComponenteMayor();
-	while (mc.leerMancha()) {
-	    std::cout << " " << mc.getComponenteMayor();
-	}
-	std::cout << std::endl;
-
+        int _f, _c;
+        std::cin >> _f;
+        std::cin >> _c;
+        ManchasCrecientes mc(_f, _c);
+        std::cout << mc.getComponenteMayor();
+        while (mc.leerMancha()) {
+            std::cout << mc.getComponenteMayor() << " ";
+        }
+        std::cout << std::endl;
     }
 
 }
