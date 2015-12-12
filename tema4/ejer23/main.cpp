@@ -11,27 +11,51 @@
 struct Tiempo {
     unsigned int hora;
     unsigned int minutos;
-    
-    bool operator<(const Tiempo& rhs) const { 
+
+    bool operator<(const Tiempo& rhs) const {
 	if (hora == rhs.hora) return minutos < rhs.minutos;
-	if (hora < rhs.hora) return hora < rhs.hora;		
+	return hora < rhs.hora;
+    }
+
+    bool operator<=(const Tiempo& rhs) const {
+	if (hora == rhs.hora) return minutos <= rhs.minutos;
+	return hora <= rhs.hora;
     }
 };
 
 struct Pelicula {
     Tiempo inicio;
     Tiempo fin;
-    bool operator<(const Pelicula& rhs) const { fin < rhs.fin; }
+
+    bool operator<(const Pelicula& rhs) const {
+	return fin < rhs.fin;
+    }
+
+    bool operator<=(const Pelicula& rhs) const {
+	return fin <= rhs.fin;
+    }
 };
 
-int resuelve(std::vector<int> const & pilas, int const V) {
-    int total = 0;
-    size_t aux = pilas.size() - 1;
+void addTiempoDescanso(Tiempo & temp) {
+    temp.minutos += 10;
+    if (temp.minutos >= 60) {
+	temp.minutos -= 60;
+	temp.hora += 1;
+    }
+}
 
-    for (size_t i = 0; i < pilas.size() && aux >= 0 && i < aux; ++i) {
-	if (pilas[i] + pilas[aux] >= V) {
+int resuelve(std::vector<Pelicula> const & peliculas) {
+    int total = 1;
+
+    Tiempo t;
+    t = peliculas[0].fin;
+    addTiempoDescanso(t);
+
+    for (size_t i = 1; i < peliculas.size(); ++i) {
+	if (t <= peliculas[i].inicio) {
 	    ++total;
-	    --aux;
+	    t = peliculas[i].fin;
+	    addTiempoDescanso(t);
 	}
     }
 
@@ -39,16 +63,18 @@ int resuelve(std::vector<int> const & pilas, int const V) {
 }
 
 void resuelveCaso(int const n) {
-    std::string hora;
+
     std::vector<Pelicula> peliculas(n);
     Tiempo aux, auxFin;
-    unsigned int duracion;
-    for (size_t i = 0; i < n; ++i) {
-	std::cin >> hora;
-	std::cin >> duracion;
-	aux.hora = atoi(hora.substr(0, hora.find(":")).c_str());
-	aux.minutos = atoi(hora.erase(0, hora.find(":") + 1).c_str());
+    int hh, mm, duracion;
+    char c;
 
+    for (size_t i = 0; i < n; ++i) {
+	std::cin >> hh >> c >> mm;
+
+	std::cin >> duracion;
+	aux.hora = hh;
+	aux.minutos = mm;
 
 	auxFin.minutos = aux.minutos + (int) (duracion % 60);
 	auxFin.hora = aux.hora + (int) (duracion / 60);
@@ -62,16 +88,10 @@ void resuelveCaso(int const n) {
 	peliculas[i] = p;
     }
 
-
-
     std::sort(peliculas.begin(), peliculas.end());
-    
-    for (Pelicula pelicula : peliculas){
-	std::cout << "Inicio: " << pelicula.inicio.hora << ":" << pelicula.inicio.minutos << " Fin: " << pelicula.fin.hora << ":" << pelicula.fin.minutos << std::endl;
-    }
-    
 
-//    std::cout << resuelve(pilas, voltaje) << std::endl;
+    std::cout << resuelve(peliculas) << std::endl;
+
 
 }
 
@@ -85,9 +105,10 @@ int main() {
 #endif
     unsigned int casos;
     std::cin >> casos;
-    while (casos != 0){
+    while (casos != 0) {
 	resuelveCaso(casos);
 	std::cin >> casos;
+	//	std::cout << "---" << std::endl;
     }
 
 
