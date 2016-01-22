@@ -1,0 +1,56 @@
+/**
+ * TAIS16. Álvar Soler y Samuel Lapuente
+ * Ejercicio 26.
+ *
+ **/
+#include <iostream>
+#include <climits>
+#include <fstream>
+
+#include "Matriz.h"
+
+
+
+Matriz<int> canoas(Matriz<int> const &alquiler, const int N) {
+    Matriz<int> coste = alquiler;
+    for (size_t d = 2; d < N - 1; ++d) {
+	for (size_t i = 1; i < N - d; ++i) {
+	    size_t j = i + d;
+	    for (size_t k = i + 1; k < j - 1; ++k) {
+		coste[i][j] = (coste[i][k] + coste[k, j]) < coste[i][j] ? (coste[i][k] + coste[k, j]) : coste[i][j];
+	    }
+	}
+    }
+    return coste;
+}   
+
+int main() {
+#ifndef DOMJUDGE
+    std::ifstream in("casos.txt");
+    auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+
+#endif
+    int n;
+
+    std::cin >> n;
+
+    while (std::cin) {
+	Matriz<int> alquiler(n + 1, n + 1, INT_MAX);
+	for (size_t i = 1; i < n + 1; ++i) {
+	    for (size_t j = i + 1; j < n + 1; ++j) {
+		std::cin >> alquiler[i][j];
+	    }
+	}
+
+	Matriz<int> c = canoas(alquiler, n);
+	
+	std::cin >> n;
+    }
+#ifndef DOMJUDGE
+
+    std::cin.rdbuf(cinbuf); //reset to standard input again
+
+    system("PAUSE");
+#endif
+    return 0;
+}
