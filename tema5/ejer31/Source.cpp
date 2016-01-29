@@ -11,51 +11,31 @@
 #include <vector>
 #include "Matriz.h"
 
-/*
- * 
- * monedas(i,j) = monedas(i-1,j) si vi > j
- * 
- * 
- * 
- * 
-monedas(i,j) = min(mon(i-1,j),mon(i-1,j - k*v[i])+k 1<=k<=cantida(i)
-si j<=tipo(i)
-monedas(i,j)=monedas(i-1,j);
-desde k=1 hasta cantidad(i){
-    temp = mon(i-1,j - k*v[i])+k 1<=k<=cantida(i);
-    if(temp < monedas(i,j)){
-        monedas(i,j)=temp
-}
-}
-	
- */
+#define MAX 1e7
 
 int monedas(std::vector<int> & monedas, std::vector<int> & cantidad, int const precio) {
-    size_t n = monedas.size() - 1;
-    Matriz<int> matriz(n + 1, precio + 1, 1e9);
-
-    for (size_t i = 1; i <= n; ++i)
-        matriz[i][0] = 0;
-
+    size_t n = monedas.size();
+    Matriz<int> matriz(n + 1, precio + 1, MAX);
+    matriz[0][0] = 0;
     for (size_t i = 1; i <= n; ++i) {
-        for (size_t j = 1; j <= precio; ++j) {
-            if (j < monedas[i]) {
-                matriz[i][j] = matriz[i - 1][j];
-            } else {
-                size_t temp = 0;
-                int aux = (int) ((int) precio / (int) monedas[i]);
-                if (aux > cantidad[i]) aux = cantidad[i];
+	matriz[i][0] = 0;
+	for (size_t j = 1; j <= precio; ++j) {
+	    if (j < monedas[i - 1]) {
+		matriz[i][j] = matriz[i - 1][j];
+	    } else {
+		matriz[i][j] = matriz[i - 1][j];
+		size_t temp = 1e9;
 
-                for (size_t k = 0; k <= aux; ++k) {
-                    temp = matriz[i - 1][j - k * monedas[i]] + k;
-                    if (temp < matriz[i][j])
-                        matriz[i][j] = temp;
-                }
-
-            }
-        }
-    }
-
+		for (size_t k = 1; k <= cantidad[i - 1] && j - k * monedas[i - 1] >= 0 && j - k * monedas[i - 1] <= precio; ++k) {
+		    temp = matriz[i - 1][j - k * monedas[i - 1]] + k;
+		    if (temp < matriz[i][j]) {
+			matriz[i][j] = temp;
+		    }
+		}
+	    }
+	}
+    }    
+    
     return matriz[n][precio];
 }
 
@@ -71,16 +51,16 @@ int main() {
     int n, C;
     std::cin >> n;
     while (std::cin) {
-        std::vector<int> m(n + 1), cantidades(n + 1);
-        for (size_t i = 1; i <= n; ++i) std::cin >> m[i];
-        for (size_t i = 1; i <= n; ++i) std::cin >> cantidades[i];
-        std::cin >> C;
-        size_t r = monedas(m, cantidades, C);
-        if (r != 1e9)
-            std::cout << "SI " << r << std::endl;
-        else
-            std::cout << "NO" << std::endl;
-        std::cin >> n;
+	std::vector<int> m(n), cantidades(n);
+	for (size_t i = 0; i < n; ++i) std::cin >> m[i];
+	for (size_t i = 0; i < n; ++i) std::cin >> cantidades[i];
+	std::cin >> C;
+	size_t r = monedas(m, cantidades, C);
+	if (r != MAX)
+	    std::cout << "SI " << r << std::endl;
+	else
+	    std::cout << "NO" << std::endl;
+	std::cin >> n;
     }
 
 #ifndef DOMJUDGE
@@ -94,3 +74,4 @@ int main() {
 
     return 0;
 }
+
